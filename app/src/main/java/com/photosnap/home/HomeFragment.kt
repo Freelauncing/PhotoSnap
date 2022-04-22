@@ -27,7 +27,7 @@ import com.photosnap.R
 import com.photosnap.databinding.FragmentHomeBinding
 import com.photosnap.util.EventObserver
 import com.photosnap.util.Utility
-import com.photosnap.util.setupSnackbar
+import com.photosnap.util.setupToast
 import kotlinx.android.synthetic.main.custom_choice_dialogue.view.*
 import java.io.File
 
@@ -38,9 +38,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewDataBinding: FragmentHomeBinding
 
-    private val viewModel by viewModels<HomeViewModel>{
-        AddProductViewModelFactory()
-    }
+    private val viewModel:HomeViewModel by viewModels()
 
     companion object{
         var Uploaded_Image_Url = ""
@@ -90,7 +88,7 @@ class HomeFragment : Fragment() {
         viewModel.openChoiceDialogue.observe(viewLifecycleOwner, EventObserver {
             showImageChoiceDialogue()
         })
-        viewDataBinding.floatingActionButton.setOnClickListener {
+        viewDataBinding.cropImage.setOnClickListener {
 
                 if (!viewModel.getProductImageUri().toString().isNullOrEmpty()) {
                     val cropRequest = CropRequest.Auto(
@@ -103,12 +101,13 @@ class HomeFragment : Fragment() {
                 }
 
         }
-        viewDataBinding.floatingActionButton2.setOnClickListener {
+        viewDataBinding.clearImage.setOnClickListener {
             viewDataBinding.selectedImage.setImageResource(0)
             viewModel.setProductImageUri("".toUri())
             Uploaded_Image_Url=""
-            viewModel.showSnackbarMessage("Image Clear")
+            viewModel.showSnackbarMessage("Image Cleared")
         }
+
         viewModel.showLoading.observe(viewLifecycleOwner, Observer {
             if(it){
                 viewDataBinding.progressBar.visibility = View.VISIBLE
@@ -125,7 +124,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSnackbar() {
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupToast(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
     override fun onResume() {

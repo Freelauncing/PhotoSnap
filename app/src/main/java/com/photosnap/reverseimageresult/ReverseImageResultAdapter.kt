@@ -31,9 +31,7 @@ class ReverseImagesRecyclerViewAdapter(
 
     fun swapList(mreverImageList: ArrayList<CommonResponse>){
         reverImageList.clear()
-        Log.v("CHEKOO=>", mreverImageList.size.toString())
         reverImageList.addAll(mreverImageList)
-        Log.v("CHEKOO=>", reverImageList.size.toString())
         this.notifyDataSetChanged()
     }
 

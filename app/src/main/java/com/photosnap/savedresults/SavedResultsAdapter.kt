@@ -58,32 +58,21 @@ RecyclerView.Adapter<SavedResultsAdapter.MyViewHolder>() {
             imagePopup.viewPopup();
         }
 
-        holder.realimage.setOnClickListener {
-            val imagePopup = ImagePopup(cxt)
-            imagePopup.initiatePopupWithGlide(currentItem.realimageurl) // Load Image from Drawable
-            imagePopup.viewPopup();
-        }
 
         val bmp = BitmapFactory.decodeByteArray(currentItem.downloadedImage, 0, currentItem.downloadedImage.size)
         holder.image.setImageBitmap(bmp)
-
-        val bmp1 = BitmapFactory.decodeByteArray(currentItem.realimage, 0, currentItem.realimage.size)
-        holder.realimage.setImageBitmap(bmp1)
 
     }
 
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var image: ImageView
-        var realimage: ImageView
         var floatingActionButton: ImageButton
 
         init {
             image = itemView.findViewById(R.id.image)
-            realimage = itemView.findViewById(R.id.realimage)
             floatingActionButton = itemView.findViewById(R.id.floatingActionButton)
         }
     }
-
 
 }

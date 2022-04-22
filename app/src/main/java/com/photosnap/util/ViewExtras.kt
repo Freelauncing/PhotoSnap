@@ -1,19 +1,21 @@
 package com.photosnap.util
 
+import android.annotation.SuppressLint
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 
 
-fun View.showSnackbar(snackbarText: String, timeLength: Int) {
-    Snackbar.make(this, snackbarText, timeLength).run {
-        show()
-    }
+@SuppressLint("ResourceType")
+fun View.showToast(snackbarText: String, timeLength: Int) {
+    Toast.makeText(this.context,snackbarText,Toast.LENGTH_SHORT).show()
+
 }
 
-fun View.setupSnackbar(
+
+fun View.setupToast(
     lifecycleOwner: LifecycleOwner,
     snackbarEvent: LiveData<Event<String>>,
     timeLength: Int
@@ -21,7 +23,7 @@ fun View.setupSnackbar(
 
     snackbarEvent.observe(lifecycleOwner, Observer { event ->
         event.getContentIfNotHandled()?.let {
-            showSnackbar(it, timeLength)
+            showToast(it, timeLength)
         }
     })
 }

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.photosnap.R
 import com.photosnap.databinding.FragmentSavedResultsBinding
-import com.photosnap.util.setupSnackbar
+import com.photosnap.util.setupToast
 
 class SavedResultsFragment : Fragment() {
 
@@ -43,7 +43,7 @@ class SavedResultsFragment : Fragment() {
         try {
 
             savedResultsAdapter = SavedResultsAdapter(ArrayList(), viewModel, requireContext())
-            viewDataBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
+            viewDataBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
             viewDataBinding.recyclerView.adapter = savedResultsAdapter
             (savedResultsAdapter as SavedResultsAdapter).notifyDataSetChanged()
 
@@ -69,6 +69,6 @@ class SavedResultsFragment : Fragment() {
     }
 
     private fun setupSnackbar() {
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupToast(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 }

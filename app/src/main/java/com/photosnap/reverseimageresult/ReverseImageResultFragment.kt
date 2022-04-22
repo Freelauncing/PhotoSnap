@@ -1,5 +1,6 @@
 package com.photosnap.reverseimageresult
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.photosnap.R
 import com.photosnap.databinding.FragmentReverseImageResultBinding
-import com.photosnap.util.setupSnackbar
+import com.photosnap.util.setupToast
 
 
 class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListener  {
@@ -23,9 +25,7 @@ class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListene
 
     private lateinit var viewDataBinding: FragmentReverseImageResultBinding
 
-    private val viewModel by viewModels<ReverseImageResultViewModel>{
-        ReverseImageResultViewModelFactory()
-    }
+    private val viewModel:ReverseImageResultViewModel by viewModels()
 
     private var reverseImagesRecyclerViewAdapter: ReverseImagesRecyclerViewAdapter? = null
 
@@ -58,7 +58,7 @@ class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListene
 
             reverseImagesRecyclerViewAdapter =
                 ReverseImagesRecyclerViewAdapter(ArrayList(), viewModel, requireContext())
-            viewDataBinding.productsList.layoutManager = GridLayoutManager(requireContext(), 3)
+            viewDataBinding.productsList.layoutManager = GridLayoutManager(requireContext(), 2)
             viewDataBinding.productsList.adapter = reverseImagesRecyclerViewAdapter
             (reverseImagesRecyclerViewAdapter as ReverseImagesRecyclerViewAdapter).notifyDataSetChanged()
 
@@ -102,11 +102,13 @@ class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListene
     }
 
     private fun setupSnackbar() {
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupToast(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        if(parent.getChildAt(0)!=null)
+            (parent.getChildAt(0) as TextView).setTextColor(Color.parseColor("#ffffff"))
         selectedResource = reverseOnlineResourceList[pos]
         if(selectedResource!="None"){
             viewModel.selectedMode.value = selectedResource

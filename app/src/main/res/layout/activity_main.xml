@@ -19,11 +19,14 @@
             android:layout_height="56dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:background="?android:attr/windowBackground"
+            android:background="@color/black"
+            app:itemBackground="@color/green"
+            app:itemIconTint="@color/item_custom_color"
+        app:itemTextColor="@color/item_custom_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="selected"
             app:menu="@menu/main_menu"/>
 
         <fragment

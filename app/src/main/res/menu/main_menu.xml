@@ -8,13 +8,13 @@
 
     <item
         android:id="@+id/reverseImageResultFragment"
-        android:title="Reverse Image Result"
+        android:title="Image Results"
         android:icon="@drawable/ic_search"
         />
 
     <item
         android:id="@+id/allResultsFragment"
-        android:title="All Saved Results"
+        android:title="Saved Results"
         android:icon="@drawable/ic_all_results"
         />
 

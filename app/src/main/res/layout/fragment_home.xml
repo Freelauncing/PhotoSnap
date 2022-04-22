@@ -18,6 +18,7 @@
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/black"
         android:layout_height="match_parent"
         tools:context=".home.HomeFragment">
 
@@ -43,6 +44,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
                 android:elevation="10dp"
+                android:backgroundTint="@color/green"
                 android:onClick="@{()->viewmodel.onclickAddImage()}"
                 android:hint="Add Product"
                 android:text="Pick Image"
@@ -67,9 +69,68 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
                 android:elevation="10dp"
+                android:backgroundTint="@color/green"
                 android:hint="Add Product"
                 android:text="Upload Image"
                 android:onClick="@{()->viewmodel.uploadImage()}"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:cornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat2"
+            android:layout_width="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearImage"
+                style="@style/button_lg"
+                android:layout_width="0dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:elevation="10dp"
+                android:backgroundTint="@color/green"
+                android:text="Clear Image"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:cornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cropImage"
+                style="@style/button_lg"
+                android:layout_width="0dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:elevation="10dp"
+                android:backgroundTint="@color/green"
+                android:hint="Add Product"
+                android:text="Crop Image"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:theme="@style/Theme.MaterialComponents.Light"
@@ -87,13 +148,14 @@
             android:layout_height="0dp"
             android:clickable="true"
             android:layout_margin="24dp"
+            android:backgroundTint="@color/brown"
             android:elevation="5dp"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -108,7 +170,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:hint="Add Image"
-                    android:text="Select an Image"
+                    android:text="Please select an image"
                     android:textSize="14sp"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/addImage" />
@@ -124,31 +186,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical" />
-
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginBottom="7dp"
-                        android:clickable="true"
-                        android:src="@drawable/ic_baseline_crop_24" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginStart="7dp"
-                        android:clickable="true"
-                        android:src="@drawable/ic_cancel" />
                 </RelativeLayout>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
