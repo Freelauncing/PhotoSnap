@@ -1,7 +1,6 @@
 package com.photosnap.reverseimageresult
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ceylonlabs.imageviewpopup.ImagePopup
 import com.photosnap.R
-import com.photosnap.data.model.CommonResponse
+import com.photosnap.data.model.ServerResponse
 import java.lang.Exception
 
 
 class ReverseImagesRecyclerViewAdapter(
-    val reverImageList: ArrayList<CommonResponse>,
+    val reverImageList: ArrayList<ServerResponse>,
     val viewModel: ReverseImageResultViewModel,
     context: Context
 ) :
@@ -29,7 +28,7 @@ class ReverseImagesRecyclerViewAdapter(
         cxt = context
     }
 
-    fun swapList(mreverImageList: ArrayList<CommonResponse>){
+    fun swapList(mreverImageList: ArrayList<ServerResponse>){
         reverImageList.clear()
         reverImageList.addAll(mreverImageList)
         this.notifyDataSetChanged()

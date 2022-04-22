@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -69,7 +70,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSnackbar()
+        setupToast()
+
         setUpListeners()
 
         MainActivity.mycallBack = object : MainActivity.callBackCropyImage {
@@ -123,14 +125,14 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun setupSnackbar() {
-        view?.setupToast(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+    private fun setupToast() {
+        view?.setupToast(this, viewModel.toastText, Toast.LENGTH_SHORT)
     }
 
     override fun onResume() {
         super.onResume()
-        if(!viewModel.snackbarText.hasActiveObservers())
-            setupSnackbar()
+        if(!viewModel.toastText.hasActiveObservers())
+            setupToast()
 
     }
 
@@ -173,12 +175,11 @@ class HomeFragment : Fragment() {
             viewModel.setProductImageUri(uri!!)
         }
 
-        if (requestCode === pickImageFromCamera_Code && resultCode === Activity.RESULT_OK) {
-            // by this point we have the camera photo on disk
+        if (requestCode == pickImageFromCamera_Code && resultCode == Activity.RESULT_OK) {
+
             val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
             viewModel.setProductImageUri(photoFile!!.toUri())
 
-            // viewDataBinding.selectedImage.setImageBitmap(takenImage)
             viewDataBinding.selectedImage.setImageBitmap(Utility.rotateImageIfRequired(takenImage,photoFile!!.toUri()))
         }
     }
@@ -193,7 +194,7 @@ class HomeFragment : Fragment() {
             val fileProvider: Uri = FileProvider.getUriForFile(requireContext(), AUTHORITY, photoFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                // Start the image capture intent to take photo
+
                 startActivityForResult(intent, pickImageFromCamera_Code)
             }
         }

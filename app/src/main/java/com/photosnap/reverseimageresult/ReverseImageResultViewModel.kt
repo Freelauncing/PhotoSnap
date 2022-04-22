@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.photosnap.data.database.DatabaseModel
 import com.photosnap.data.database.ReverseDbHelper
-import com.photosnap.data.model.CommonResponse
+import com.photosnap.data.model.ServerResponse
 import com.photosnap.data.remote.ReverseImageRetreiver
 import com.photosnap.home.HomeFragment.Companion.Uploaded_Image_Url
 import com.photosnap.util.Event
@@ -25,11 +25,11 @@ class ReverseImageResultViewModel:ViewModel() {
 
     val selectedMode = MutableLiveData<String>()
 
-    private val _reverseImageLists = MutableLiveData<ArrayList<CommonResponse>>()
-    val reverseImageLists: LiveData<ArrayList<CommonResponse>> = _reverseImageLists
+    private val _reverseImageLists = MutableLiveData<ArrayList<ServerResponse>>()
+    val reverseImageLists: LiveData<ArrayList<ServerResponse>> = _reverseImageLists
 
-    private val _snackbarText = MutableLiveData<Event<String>>()
-    val snackbarText: LiveData<Event<String>> = _snackbarText
+    private val _toastText = MutableLiveData<Event<String>>()
+    val toastText: LiveData<Event<String>> = _toastText
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
@@ -38,7 +38,7 @@ class ReverseImageResultViewModel:ViewModel() {
     val updateList: LiveData<Event<String>> = _updateList
 
     fun showSnackbarMessage(message: String) { //
-        _snackbarText.value = Event(message)
+        _toastText.value = Event(message)
     }
 
     init {
@@ -54,30 +54,25 @@ class ReverseImageResultViewModel:ViewModel() {
             if (!Uploaded_Image_Url.isNullOrEmpty()) {
                 viewModelScope.launch {
                     _reverseImageLists.value = ArrayList()
-                    Log.v("HELLO", "Check")
                     _updateList.value = Event("Update")
                     _showLoading.value = true
                     if (selectedMode.value.toString().equals("Google")) {
                         var res =
                             reverseImageRetreiver.googleInverseImage(Uploaded_Image_Url)
-                        Log.v("HELLO", res.toString())
                         _reverseImageLists.value!!.addAll(res)
                     } else if (selectedMode.value.toString().equals("Bing")) {
                         var res =
                             reverseImageRetreiver.bingInverseImage(Uploaded_Image_Url)
-                        Log.v("HELLO", res.toString())
                         _reverseImageLists.value!!.addAll(res)
                     } else if (selectedMode.value.toString().equals("Tineye")) {
                         var res =
                             reverseImageRetreiver.tineyeInverseImage(Uploaded_Image_Url)
-                        Log.v("HELLO", res.toString())
                         _reverseImageLists.value!!.addAll(res)
                     } else {
                         showSnackbarMessage("No Server Selected")
                     }
                     _updateList.value = Event("Update")
                     _showLoading.value = false
-                    Log.v("HELLO", _reverseImageLists.value!!.size.toString())
                 }
             } else {
                 showSnackbarMessage("No Image Uploaded")
@@ -87,15 +82,13 @@ class ReverseImageResultViewModel:ViewModel() {
         }
     }
 
-    fun takeUrl(currentItem:CommonResponse) {
+    fun takeUrl(currentItem:ServerResponse) {
         try {
             _showLoading.value = true
             GlobalScope.launch(Dispatchers.IO) {
                 val res = ReverseDbHelper.insertReverseImage(
                     DatabaseModel(
                         0,
-                        convertToByteArray(Uploaded_Image_Url),// Uploaded_Image_Url
-                        Uploaded_Image_Url,//Uploaded_Image_Url,
                         convertToByteArray(currentItem.image_link),
                         currentItem.image_link,
                         currentItem.name
@@ -127,8 +120,6 @@ class ReverseImageResultViewModel:ViewModel() {
                 val url = URL(url)
                 image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             }
-            Log.v("CHECK",url)
-            Log.v("CHECK",image.toString())
             return image
         } catch (e: IOException) {
             System.out.println(e)

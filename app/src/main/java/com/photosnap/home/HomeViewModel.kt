@@ -32,8 +32,8 @@ class HomeViewModel:ViewModel() {
 
     private val _openChoiceDialogue = MutableLiveData<Event<Unit>>()
     val openChoiceDialogue: LiveData<Event<Unit>> = _openChoiceDialogue
-    private val _snackbarText = MutableLiveData<Event<String>>()
-    val snackbarText: LiveData<Event<String>> = _snackbarText
+    private val _toastText = MutableLiveData<Event<String>>()
+    val toastText: LiveData<Event<String>> = _toastText
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
@@ -55,7 +55,7 @@ class HomeViewModel:ViewModel() {
     }
 
     fun showSnackbarMessage(message: String) { //
-        _snackbarText.value = Event(message)
+        _toastText.value = Event(message)
     }
 
     fun uploadImage(){

@@ -2,7 +2,7 @@ package com.photosnap.data.model
 
 import androidx.room.ColumnInfo
 
-data class CommonResponse(
+data class ServerResponse(
 
     @ColumnInfo(name = "store_link")
     var store_link : String ,

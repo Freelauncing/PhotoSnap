@@ -17,8 +17,8 @@ class SavedResultsViewModel:ViewModel() {
     private val _reverseImageLists = MutableLiveData<ArrayList<DatabaseModel>>()
     val reverseImageLists: LiveData<ArrayList<DatabaseModel>> = _reverseImageLists
 
-    private val _snackbarText = MutableLiveData<Event<String>>()
-    val snackbarText: LiveData<Event<String>> = _snackbarText
+    private val _toastText = MutableLiveData<Event<String>>()
+    val toastText: LiveData<Event<String>> = _toastText
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
@@ -28,15 +28,19 @@ class SavedResultsViewModel:ViewModel() {
 
 
     fun showSnackbarMessage(message: String) { //
-        _snackbarText.value = Event(message)
+        _toastText.value = Event(message)
     }
 
     fun getAllImagesListFromDb(){
         try {
-            val list = ReverseDbHelper.getAllImages()
-            _reverseImageLists.value = ArrayList()
-            _reverseImageLists.value!!.addAll(list)
-            _updateList.value = Event("Update")
+            GlobalScope.launch(Dispatchers.IO) {
+                val list = ReverseDbHelper.getAllImages()
+                launch (Dispatchers.Main){
+                    _reverseImageLists.value = ArrayList()
+                    _reverseImageLists.value!!.addAll(list)
+                    _updateList.value = Event("Update")
+                }
+            }
         }catch (e:Exception){
 
         }
@@ -49,6 +53,7 @@ class SavedResultsViewModel:ViewModel() {
 
                 launch(Dispatchers.Main) {
                     getAllImagesListFromDb()
+                    showSnackbarMessage("Image Deleted")
                 }
             }
         }catch (e:Exception){

@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.photosnap.data.database.ReverseImageContract.Companion.DATABASE_NAME
 import com.photosnap.data.database.ReverseImageContract.Companion.DATABASE_TABLE_REVERSEIMAGES
 import com.photosnap.data.database.ReverseImageContract.Companion.DATABASE_VERSION
@@ -14,8 +13,6 @@ import com.photosnap.data.database.ReverseImageContract.Companion.ROW_DOWNLOADED
 import com.photosnap.data.database.ReverseImageContract.Companion.ROW_DOWNLOADEDIMAGENAME
 import com.photosnap.data.database.ReverseImageContract.Companion.ROW_DOWNLOADEDIMAGEURL
 import com.photosnap.data.database.ReverseImageContract.Companion.ROW_ID
-import com.photosnap.data.database.ReverseImageContract.Companion.ROW_REALIMAGE
-import com.photosnap.data.database.ReverseImageContract.Companion.ROW_REALIMAGEURL
 
 class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
     DATABASE_NAME, null,
@@ -31,8 +28,6 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
             if (database.isOpen && databaseOpen) {
                 database.close()
                 databaseOpen = false
-
-                Log.i("Database" , "Database close")
             }
         }
 
@@ -46,13 +41,9 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
             if (!databaseOpen) {
                 database = INSTANCE.writableDatabase
                 databaseOpen = true
-
-                Log.i("Database" , "Database Open")
             }
 
             val values = ContentValues()
-            values.put(ROW_REALIMAGE, obj.realimage)
-            values.put(ROW_REALIMAGEURL, obj.realimageurl)
             values.put(ROW_DOWNLOADEDIMAGE, obj.downloadedImage)
             values.put(ROW_DOWNLOADEDIMAGEURL, obj.downloadedImageUrl)
             values.put(ROW_DOWNLOADEDIMAGENAME, obj.downloadedImageName)
@@ -63,8 +54,6 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
             if (!databaseOpen) {
                 database = INSTANCE.writableDatabase
                 databaseOpen = true
-
-                Log.i("Database" , "Database Open")
             }
 
             val data: MutableList<DatabaseModel> = ArrayList()
@@ -76,9 +65,7 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
                             cur.getInt(0),
                             cur.getBlob(1),
                             cur.getString(2),
-                            cur.getBlob(3),
-                            cur.getString(4),
-                            cur.getString(5)
+                            cur.getString(3)
                         )
                         data.add(image)
 
@@ -92,8 +79,6 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
             if (!databaseOpen) {
                 database = INSTANCE.writableDatabase
                 databaseOpen = true
-
-                Log.i("Database" , "Database Open")
             }
             return database.delete(DATABASE_TABLE_REVERSEIMAGES, "${ROW_ID} = $id", null)
         }
@@ -102,12 +87,10 @@ class ReverseDbHelper(ctx: Context) : SQLiteOpenHelper(ctx,
 
     override fun onCreate(p0: SQLiteDatabase?) {
         p0?.execSQL(QUERY_CREATE_REVERSEIMAGES)
-        Log.i("DATABASE", "DATABASE CREATED")
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
         p0?.execSQL(QUERY_UPDATE_REVERSEIMAGES)
-        Log.i("DATABASE", "DATABASE UPDATED")
     }
 
 }

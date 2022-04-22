@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 
 @SuppressLint("ResourceType")
 fun View.showToast(snackbarText: String, timeLength: Int) {
-    Toast.makeText(this.context,snackbarText,Toast.LENGTH_SHORT).show()
+    Toast.makeText(this.context,snackbarText,timeLength).show()
 
 }
 

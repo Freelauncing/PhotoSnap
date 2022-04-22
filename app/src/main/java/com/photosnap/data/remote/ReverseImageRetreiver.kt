@@ -1,7 +1,7 @@
 package com.photosnap.data.remote
 
 import com.google.gson.GsonBuilder
-import com.photosnap.data.model.CommonResponse
+import com.photosnap.data.model.ServerResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -43,20 +43,12 @@ class ReverseImageRetreiver {
         reverseImageRetreiver = retrofit.create(ReverseImageNetworkInterface::class.java)
     }
 
-    fun uploadInverseImage(@Part image: MultipartBody.Part): Call<ResponseBody> {
-        return reverseImageRetreiver.uploadImageToServer(image)
-    }
+    fun uploadInverseImage(@Part image: MultipartBody.Part): Call<ResponseBody>  = reverseImageRetreiver.uploadImageToServer(image)
 
-    suspend fun googleInverseImage(url:String):List<CommonResponse>{
-        return reverseImageRetreiver.googleImageUrlToServer(url)
-    }
+    suspend fun googleInverseImage(url:String):List<ServerResponse> = reverseImageRetreiver.googleImageUrlToServer(url)
 
-    suspend fun bingInverseImage(url:String):List<CommonResponse>{
-        return reverseImageRetreiver.bingImageUrlToServer(url)
-    }
+    suspend fun bingInverseImage(url:String):List<ServerResponse> = reverseImageRetreiver.bingImageUrlToServer(url)
 
-    suspend fun tineyeInverseImage(url:String):List<CommonResponse>{
-        return reverseImageRetreiver.tineyeImageUrlToServer(url)
-    }
+    suspend fun tineyeInverseImage(url:String):List<ServerResponse> = reverseImageRetreiver.tineyeImageUrlToServer(url)
 
 }

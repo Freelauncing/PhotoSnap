@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -84,7 +85,7 @@ class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListene
     private fun setUpObservers() {
         viewModel.updateList.observe(viewLifecycleOwner, Observer {
             if(viewModel.reverseImageLists.value!!.size>0){
-                Log.v("Hello","List")
+
                 viewDataBinding.progressBar.visibility = View.GONE
                 reverseImagesRecyclerViewAdapter!!.swapList(viewModel.reverseImageLists.value!!)
             }else{
@@ -102,7 +103,7 @@ class ReverseImageResultFragment : Fragment(), AdapterView.OnItemSelectedListene
     }
 
     private fun setupSnackbar() {
-        view?.setupToast(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupToast(this, viewModel.toastText, Toast.LENGTH_SHORT)
     }
 
 
