@@ -56,7 +56,7 @@ class Utility {
         @RequiresApi(Build.VERSION_CODES.O)
         fun createFileForImage(context: Context): File? {
             val directoryToStore: File
-            directoryToStore = context.getExternalFilesDir("myphotosnaps")!!
+            directoryToStore = context.getExternalFilesDir("MyPhotoSnapImages")!!
             if (!directoryToStore.exists()) {
                 if (directoryToStore.mkdir());
             }
@@ -79,7 +79,7 @@ class Utility {
         @RequiresApi(Build.VERSION_CODES.O)
         fun createDirectoryAndSaveFile(context: Context, imageToSave: Bitmap): Uri? {
             val directoryToStore: File
-            directoryToStore = context.getExternalFilesDir("myphotosnaps")!!
+            directoryToStore = context.getExternalFilesDir("MyPhotoSnapImages")!!
             if (!directoryToStore.exists()) {
                 if (directoryToStore.mkdir());
             }

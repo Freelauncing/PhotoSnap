@@ -2,8 +2,8 @@
 <Paths xmlns:android="http://schemas.android.com/apk/res/android">
 
     <external-path
-        name='my_images'
-        path='Android/data/com.photosnap/files/myphotosnaps'
+        name='photosnap_images'
+        path='Android/data/com.photosnap/files/MyPhotoSnapImages'
         ></external-path>
 
 </Paths>

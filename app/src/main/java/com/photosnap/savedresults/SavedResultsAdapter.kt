@@ -1,4 +1,4 @@
-package com.photosnap.allresults
+package com.photosnap.savedresults
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -14,12 +14,12 @@ import com.photosnap.R
 import com.photosnap.data.database.DatabaseModel
 
 
-class AllResultsAdapter(
-val reverImageList: ArrayList<DatabaseModel>,
-val viewModel: AllResultsViewModel,
-context: Context
+class SavedResultsAdapter(
+    val reverImageList: ArrayList<DatabaseModel>,
+    val viewModel: SavedResultsViewModel,
+    context: Context
 ) :
-RecyclerView.Adapter<AllResultsAdapter.MyViewHolder>() {
+RecyclerView.Adapter<SavedResultsAdapter.MyViewHolder>() {
 
     var cxt: Context
 
@@ -29,9 +29,7 @@ RecyclerView.Adapter<AllResultsAdapter.MyViewHolder>() {
 
     fun swapList(mreverImageList: ArrayList<DatabaseModel>){
         reverImageList.clear()
-        Log.v("CHEKOO=>", mreverImageList.size.toString())
         reverImageList.addAll(mreverImageList)
-        Log.v("CHEKOO=>", reverImageList.size.toString())
         this.notifyDataSetChanged()
     }
 

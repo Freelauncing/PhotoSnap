@@ -1,5 +1,6 @@
 package com.photosnap.home
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +34,7 @@ import java.io.File
 
 class HomeFragment : Fragment() {
 
-    val LOG_TAG:String = "AddProductFragment"
-    val AUTHORITY:String = "com.reversedimagesearched.home.HomeFragment"
+    val AUTHORITY:String = "com.photosnap.home.HomeFragment"
 
     private lateinit var viewDataBinding: FragmentHomeBinding
 
@@ -67,23 +68,21 @@ class HomeFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        try {
-            setupSnackbar()
-            setUpListeners()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            MainActivity.mycallBack = object : MainActivity.callBackCropyImage {
-                override fun takeUri(muri: Uri) {
-                    val uri = Utility.readUriImage(requireContext(), muri!!)
-                    viewDataBinding.selectedImage.setImageURI(uri)
-                    viewModel.setProductImageUri(uri!!)
-                }
+        setupSnackbar()
+        setUpListeners()
 
+        MainActivity.mycallBack = object : MainActivity.callBackCropyImage {
+            override fun takeUri(muri: Uri) {
+                Log.v("Hello","Frag" + muri)
+                val uri = Utility.readUriImage(requireContext(), muri!!)
+                viewDataBinding.selectedImage.setImageURI(uri)
+                viewModel.setProductImageUri(uri!!)
             }
-        }catch (e:Exception){
-
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -92,7 +91,7 @@ class HomeFragment : Fragment() {
             showImageChoiceDialogue()
         })
         viewDataBinding.floatingActionButton.setOnClickListener {
-            try {
+
                 if (!viewModel.getProductImageUri().toString().isNullOrEmpty()) {
                     val cropRequest = CropRequest.Auto(
                         sourceUri = viewModel.getProductImageUri()!!,
@@ -102,8 +101,7 @@ class HomeFragment : Fragment() {
                 } else {
                     viewModel.showSnackbarMessage("Image Not Selected")
                 }
-            }catch (e:Exception) {
-            }
+
         }
         viewDataBinding.floatingActionButton2.setOnClickListener {
             viewDataBinding.selectedImage.setImageResource(0)
@@ -148,7 +146,7 @@ class HomeFragment : Fragment() {
         val btn_gallery = dialogView.btn_gallery
         val txt_dialog_title = dialogView.txt_dialog_content
         val alertDialog = dialogBuilder.create()
-        txt_dialog_title.setText("Choose Image From")
+        txt_dialog_title.setText("Select Image From")
 
         btn_camera.setOnClickListener {
             alertDialog.dismiss()
@@ -166,31 +164,27 @@ class HomeFragment : Fragment() {
         alertDialog.show()
     }
 
+    @SuppressLint("NewApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        try {
-            if (resultCode == Activity.RESULT_OK && requestCode == pickImageFromGallery_Code) {
-                var imageUri: Uri? = data?.data
-                val uri = Utility.readUriImage(requireContext(), imageUri!!)
-                viewDataBinding.selectedImage.setImageURI(uri)
-                viewModel.setProductImageUri(uri!!)
-            }
-            if (requestCode === pickImageFromCamera_Code && resultCode === Activity.RESULT_OK) {
-                // by this point we have the camera photo on disk
-                val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
-                viewModel.setProductImageUri(photoFile!!.toUri())
+        if (resultCode == Activity.RESULT_OK && requestCode == pickImageFromGallery_Code) {
+            var imageUri: Uri? = data?.data
+            val uri = Utility.readUriImage(requireContext(),imageUri!!)
+            viewDataBinding.selectedImage.setImageURI(uri)
+            viewModel.setProductImageUri(uri!!)
+        }
 
-                // viewDataBinding.selectedImage.setImageBitmap(takenImage)
-                viewDataBinding.selectedImage.setImageBitmap(
-                    Utility.rotateImageIfRequired(
-                        takenImage,
-                        photoFile!!.toUri()
-                    )
-                )
-            }
-        }catch (e:Exception) {
+        if (requestCode === pickImageFromCamera_Code && resultCode === Activity.RESULT_OK) {
+            // by this point we have the camera photo on disk
+            val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+            viewModel.setProductImageUri(photoFile!!.toUri())
+
+            // viewDataBinding.selectedImage.setImageBitmap(takenImage)
+            viewDataBinding.selectedImage.setImageBitmap(Utility.rotateImageIfRequired(takenImage,photoFile!!.toUri()))
         }
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onLaunchCamera() {

@@ -31,8 +31,8 @@ class SplashActivity : AppCompatActivity() {
             try {
                 val myIntent = Intent(this, MainActivity::class.java)
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                this.startActivity(myIntent)
-                this.finish()
+                startActivity(myIntent)
+                finish()
             }catch (e : Exception){
                 Log.v("Splash",e.toString())
             }

@@ -1,4 +1,4 @@
-package com.photosnap.allresults
+package com.photosnap.savedresults
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AllResultsViewModel:ViewModel() {
+class SavedResultsViewModel:ViewModel() {
 
 
     private val _reverseImageLists = MutableLiveData<ArrayList<DatabaseModel>>()

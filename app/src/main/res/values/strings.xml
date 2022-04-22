@@ -9,5 +9,5 @@
         <item>Bing</item>
         <item>Tineye</item>
     </string-array>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash">PhotoSnap</string>
 </resources>

@@ -1,7 +1,6 @@
-package com.photosnap.allresults
+package com.photosnap.savedresults
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,51 +10,47 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.photosnap.R
-import com.photosnap.databinding.FragmentAllResultsBinding
+import com.photosnap.databinding.FragmentSavedResultsBinding
 import com.photosnap.util.setupSnackbar
 
-class AllResultsFragment : Fragment() {
+class SavedResultsFragment : Fragment() {
 
-    private var allResultsAdapter: AllResultsAdapter? = null
+    private var savedResultsAdapter: SavedResultsAdapter? = null
 
-    private lateinit var viewDataBinding: FragmentAllResultsBinding
+    private lateinit var viewDataBinding: FragmentSavedResultsBinding
 
-
-    private val viewModel by viewModels<AllResultsViewModel>{
-        AllResultsViewModelFactory()
-    }
+    private val viewModel:SavedResultsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_all_results, container, false)
+        val view = inflater.inflate(R.layout.fragment_saved_results, container, false)
 
-        viewDataBinding = FragmentAllResultsBinding.bind(view).apply {
+        viewDataBinding = FragmentSavedResultsBinding.bind(view).apply {
             this.viewmodel = viewModel
         }
 
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
         return viewDataBinding.root
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_results, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         try {
-            allResultsAdapter = AllResultsAdapter(ArrayList(), viewModel, requireContext())
+
+            savedResultsAdapter = SavedResultsAdapter(ArrayList(), viewModel, requireContext())
             viewDataBinding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-            viewDataBinding.recyclerView.adapter = allResultsAdapter
-            (allResultsAdapter as AllResultsAdapter).notifyDataSetChanged()
+            viewDataBinding.recyclerView.adapter = savedResultsAdapter
+            (savedResultsAdapter as SavedResultsAdapter).notifyDataSetChanged()
 
             setUpObservers()
 
             setupSnackbar()
+
         }catch (e:Exception){
 
         }
@@ -66,10 +61,9 @@ class AllResultsFragment : Fragment() {
 
         viewModel.updateList.observe(viewLifecycleOwner, Observer {
             if(viewModel.reverseImageLists.value!!.size>0){
-                Log.v("Hello","List")
-                allResultsAdapter!!.swapList(viewModel.reverseImageLists.value!!)
+                savedResultsAdapter!!.swapList(viewModel.reverseImageLists.value!!)
             }else{
-                allResultsAdapter!!.swapList(ArrayList())
+                savedResultsAdapter!!.swapList(ArrayList())
             }
         })
     }

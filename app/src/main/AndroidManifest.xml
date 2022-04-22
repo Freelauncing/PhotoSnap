@@ -27,6 +27,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/title_activity_splash"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PhotoSnap.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,6 +44,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.photosnap.home.HomeFragment"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
